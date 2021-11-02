@@ -1,12 +1,21 @@
 package com.mohaymen.codeassignment.contacts.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.mohaymen.codeassignment.contacts.R
+import android.view.LayoutInflater
+import com.mohaymen.codeassignment.contacts.databinding.ActivityMainBinding
+import com.mohaymen.codeassignment.contacts.presentation.base.BaseBindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+@AndroidEntryPoint
+class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+
+
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = { layoutInflater ->
+        ActivityMainBinding.inflate(layoutInflater)
     }
+
+    override fun initView() {
+
+    }
+
 }
