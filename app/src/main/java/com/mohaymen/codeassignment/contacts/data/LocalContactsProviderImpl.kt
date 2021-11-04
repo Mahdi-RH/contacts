@@ -7,7 +7,6 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import com.mohaymen.codeassignment.contacts.data.model.LocalContact
 import com.mohaymen.codeassignment.contacts.domain.LocalContactsProvider
-
 import javax.inject.Inject
 
 

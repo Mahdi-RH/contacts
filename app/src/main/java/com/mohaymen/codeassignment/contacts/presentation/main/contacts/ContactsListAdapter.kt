@@ -8,7 +8,7 @@ import com.mohaymen.codeassignment.contacts.databinding.ItemContactsViewBinding
 import com.mohaymen.codeassignment.contacts.domain.model.Contact
 import com.mohaymen.codeassignment.contacts.presentation.base.BaseViewHolder
 
-class ContactsListAdapter :
+class ContactsListAdapter(val onItemClick: (Contact) -> Unit) :
     ListAdapter<Contact, ContactsListAdapter.ContactsViewHolder>(DiffCallBack) {
 
 
@@ -29,7 +29,12 @@ class ContactsListAdapter :
     inner class ContactsViewHolder(private val item: ItemContactsViewBinding) :
         BaseViewHolder<Contact>(item.root) {
         override fun onBind(obj: Contact) {
-            item.txtContactItem.text = obj.name.plus("\n").plus(obj.phoneNumber)
+            item.txtContactItem.text = obj.name
+
+            item.root.setOnClickListener {
+                onItemClick(obj)
+            }
+
         }
 
     }

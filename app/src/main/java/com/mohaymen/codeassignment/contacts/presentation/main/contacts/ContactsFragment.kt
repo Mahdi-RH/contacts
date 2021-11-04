@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.mohaymen.codeassignment.contacts.databinding.FragmentContactsBinding
+import com.mohaymen.codeassignment.contacts.domain.model.Contact
 import com.mohaymen.codeassignment.contacts.presentation.base.BaseBindingFragment
 import com.mohaymen.codeassignment.contacts.presentation.main.MainActivity
 import com.mohaymen.codeassignment.contacts.utils.Constants
@@ -21,13 +23,23 @@ class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
     private val viewModel: ContactsViewModel by viewModels()
 
     private val adapter: ContactsListAdapter by lazy {
-        ContactsListAdapter()
+        ContactsListAdapter { contact ->
+            goToContactDetails(contact)
+        }
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentContactsBinding =
         { layoutInflater, viewGroup, b ->
             FragmentContactsBinding.inflate(layoutInflater, viewGroup, b)
         }
+
+    private fun goToContactDetails(contact: Contact) {
+        val action =
+            ContactsFragmentDirections.actionContactsFragmentToContactDetailsFragment(contact)
+        findNavController().navigate(
+            action
+        )
+    }
 
     override fun initView() {
         binding.recyclerContacts.adapter = adapter
