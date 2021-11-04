@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.mohaymen.codeassignment.contacts.R
 import com.mohaymen.codeassignment.contacts.databinding.FragmentContactsBinding
 import com.mohaymen.codeassignment.contacts.domain.model.Contact
 import com.mohaymen.codeassignment.contacts.presentation.base.BaseBindingFragment
@@ -43,20 +44,27 @@ class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
 
     override fun initView() {
         binding.recyclerContacts.adapter = adapter
+
         storagePermissionCheck()
 
         viewModel.contacts.observe(viewLifecycleOwner, { screenState ->
             when {
-                screenState.isLoading -> {
+                screenState.isLoading -> { // loading handling
                     (activity as MainActivity).displayProgress(true)
                 }
-                screenState.contactsList.isNotEmpty() -> {
+                screenState.contactsList.isNotEmpty() -> {  // data handling
                     (activity as MainActivity).displayProgress(false)
                     adapter.submitList(screenState.contactsList)
                 }
-                screenState.error != "" -> {
+                screenState.error != "" -> {  // error handling
                     (activity as MainActivity).displayProgress(false)
                     displayMessage(screenState.error)
+
+
+                }
+                screenState.error == "" && screenState.contactsList.isEmpty()-> {  // no contacts handling
+                    (activity as MainActivity).displayProgress(false)
+                    displayMessage(requireContext().getString(R.string.no_contact))
 
 
                 }
@@ -80,7 +88,7 @@ class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
     }
 
     private fun checkSelfPermission(): Boolean {
-        val result = ContextCompat.checkSelfPermission(
+        val result = ActivityCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.READ_CONTACTS
         )
@@ -88,11 +96,11 @@ class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
+        requestPermissions(
             arrayOf(Manifest.permission.READ_CONTACTS),
             Constants.READ_CONTACTS_REQUEST_CODE
         )
+
     }
 
     override fun onRequestPermissionsResult(
