@@ -2,7 +2,10 @@ package com.mohaymen.codeassignment.contacts.di
 
 import android.content.ContentResolver
 import android.content.Context
+import androidx.room.Room
 import com.mohaymen.codeassignment.contacts.data.LocalContactsProviderImpl
+import com.mohaymen.codeassignment.contacts.data.database.ContactsDao
+import com.mohaymen.codeassignment.contacts.data.database.ContactsDataBase
 import com.mohaymen.codeassignment.contacts.data.repository.ContactsRepositoryImpl
 import com.mohaymen.codeassignment.contacts.domain.LocalContactsProvider
 import com.mohaymen.codeassignment.contacts.domain.repository.ContactsRepository
@@ -33,10 +36,15 @@ object AppModule {
         LocalContactsProviderImpl(contentResolver)
 
 
+
+
     @Singleton
     @Provides
-    fun provideContactsRepository(localContactsProvider: LocalContactsProvider): ContactsRepository =
-        ContactsRepositoryImpl(localContactsProvider)
+    fun provideContactsRepository(
+        localContactsProvider: LocalContactsProvider,
+        contactsDao: ContactsDao
+    ): ContactsRepository =
+        ContactsRepositoryImpl(localContactsProvider, contactsDao)
 
     @Named(Constants.IO_DISPATCHER)
     @Singleton
@@ -48,5 +56,18 @@ object AppModule {
     @Provides
     fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
 
+    @Singleton
+    @Provides
+    fun provideContactsDataBase(@ApplicationContext context: Context) =
+        Room.databaseBuilder(
+            context,
+            ContactsDataBase::class.java,
+            Constants.CONTACTS_DATABASE_NAME
+        ).build()
+
+    @Singleton
+    @Provides
+    fun provideContactsDao(contactsDataBase: ContactsDataBase): ContactsDao =
+        contactsDataBase.getDao()
 
 }

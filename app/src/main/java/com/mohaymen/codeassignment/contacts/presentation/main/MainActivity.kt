@@ -6,15 +6,16 @@ import com.mohaymen.codeassignment.contacts.presentation.base.BaseBindingActivit
 import dagger.hilt.android.AndroidEntryPoint
 
 
+
 @AndroidEntryPoint
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
-
 
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = { layoutInflater ->
         ActivityMainBinding.inflate(layoutInflater)
     }
 
     override fun initView() {
+
 
     }
 
