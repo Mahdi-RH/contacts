@@ -2,6 +2,7 @@ package com.mohaymen.codeassignment.contacts.domain.repository
 
 import com.mohaymen.codeassignment.contacts.data.database.ContactEntity
 import com.mohaymen.codeassignment.contacts.data.model.LocalContact
+import com.mohaymen.codeassignment.contacts.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 

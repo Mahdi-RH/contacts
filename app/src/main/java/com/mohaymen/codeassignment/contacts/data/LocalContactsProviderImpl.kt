@@ -22,15 +22,19 @@ class LocalContactsProviderImpl @Inject constructor(
         ContactsContract.CommonDataKinds.Phone._ID
     )
 
-    override fun getContacts() = contentResolver.observeQuery(uri = uri, projection = columns).mapToList { cursor ->
-            val id =
-                cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID))
-            val name =
-                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val number =
-                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            LocalContact(id = id, name = name, phoneNumber = number)
-        }
+    override fun getContacts() = contentResolver.observeQuery(
+        uri = uri,
+        projection = columns,
+        sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+    ).mapToList { cursor ->
+        val id =
+            cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID))
+        val name =
+            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+        val number =
+            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+        LocalContact(id = id, name = name, phoneNumber = number)
+    }
 
 
 }

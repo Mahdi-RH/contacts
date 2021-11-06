@@ -9,6 +9,9 @@ import com.mohaymen.codeassignment.contacts.domain.model.Contact
 import com.mohaymen.codeassignment.contacts.presentation.base.BaseBindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Show Contact details
+ */
 @AndroidEntryPoint
 class ContactDetailsFragment : BaseBindingFragment<FragmentContactDetailsBinding>() {
 

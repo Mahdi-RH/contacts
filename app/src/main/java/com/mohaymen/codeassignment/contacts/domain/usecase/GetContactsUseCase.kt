@@ -20,8 +20,8 @@ class GetContactsUseCase @Inject constructor(
 
     operator fun invoke() = flow<Resource<List<Contact>>> {
         try {
-            repository.getLocalContacts().collect { localContacts ->
-                emit(Resource.Loading())
+            emit(Resource.Loading())
+          repository.getLocalContacts().collect { localContacts -> // fetching contacts by contentResolver
                 val contactsEntity =
                     localContacts.map { localContact ->  // convert contacts to desired one for database
                         localContact.toContactEntity()
@@ -32,9 +32,10 @@ class GetContactsUseCase @Inject constructor(
                     .map { contactEntity -> // convert database contacts to desired one for ui layer
                         contactEntity.toContact()
                     }
-                emit(Resource.Success(contacts))
+               emit(Resource.Success(contacts.sortedBy { contact -> // sorting contacts
+                   contact.name
+               }))
             }
-
 
         } catch (e: Exception) {
             emit(Resource.Error(message = e.localizedMessage))
@@ -42,6 +43,5 @@ class GetContactsUseCase @Inject constructor(
 
 
     }.flowOn(dispatcher)
-
 
 }

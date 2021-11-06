@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mohaymen.codeassignment.contacts.R
@@ -17,6 +16,9 @@ import com.mohaymen.codeassignment.contacts.presentation.main.MainActivity
 import com.mohaymen.codeassignment.contacts.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Show Contacts List
+ */
 @AndroidEntryPoint
 class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
 
@@ -62,7 +64,7 @@ class ContactsFragment : BaseBindingFragment<FragmentContactsBinding>() {
 
 
                 }
-                screenState.error == "" && screenState.contactsList.isEmpty()-> {  // no contacts handling
+                screenState.error == "" && screenState.contactsList.isEmpty() -> {  // no contacts handling
                     (activity as MainActivity).displayProgress(false)
                     displayMessage(requireContext().getString(R.string.no_contact))
 

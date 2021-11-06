@@ -41,4 +41,6 @@ class ContactsViewModel @Inject constructor(private val getContactsUseCase: GetC
             }
         }.launchIn(viewModelScope)
     }
+
+
 }
